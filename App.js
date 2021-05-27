@@ -12,9 +12,8 @@ export class App extends Component {
     super(props);
     this.state = {
       
-      value: <Todo/>,
 
-      list :[],
+      todolist :[],
     
        };
 
@@ -36,11 +35,15 @@ this.setState({value:event.target.value});
 
 deleteHandler(value)
 { 
- var r =this.state.list;
+
+ var r =this.state.todolist;
 
  r.splice(value,1)
+
 console.log(value)
-this.setState({list: r})
+
+
+this.setState({todolist: r})
 }
 
 
@@ -48,40 +51,57 @@ this.setState({list: r})
 
 clickHandler(event)
 {
-this.setState(
-  {
-    list: this.state.list.concat(this.state.value)
-  });
+  
 event.preventDefault();
+
+  
+  let {todolist} = this.state;
+
+  let length  =  todolist.length>0?todolist.length+1:1;
+
+
+  this.setState({todolist:todolist.concat(length)})
+
+  
 }
 
-
-  render() {
+  render()
+   {
+  
     return (
-      <React.Fragment>
+  
+  <React.Fragment>
 
 <div className="container.fluid">
-<button className="btn btn-primary" onClick={this.clickHandler}><h3>New Task Manager</h3></button>
+
+<button className="btn btn-primary" onClick={this.clickHandler}><h1>New Task Manager</h1></button>
 </div>
 
 
-{this.state.list.map((item,index)=>
-    <Draggable><div className="container" style={{maxWidth:"500px",backgroundColor:"whitesmoke" }}>
+{this.state.todolist.map((item,index)=>
+    <Draggable key={item}>
+      
+      <div className="container" style={{maxWidth:"viewport",backgroundColor:"whitesmoke" }}>
   
       
   <div className="row bg-primary">
+      
             <div className="col-md-6 lef">
              
              
-               <h3 className="">
-                Task Manager
-               </h3>
+               <h1 >
+                Task Manager {item}
+               </h1>
             </div>
             <div className="col-md-6 d-flex justify-content-end">
-                 <button className="btn btn-danger" value={index} onClick={()=>this.deleteHandler(index)}>X</button>
+                 <button className="btn btn-danger" onClick={()=>this.deleteHandler(index)}>X</button>
             </div>
           </div>
-      {item}
+        <div className="container gx-5  padding-top margin-top">  
+    <div className=" padding-top  margin-top">
+      <Todo/>
+    </div>
+      </div>
      </div>
   </Draggable>
      
